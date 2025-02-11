@@ -35,14 +35,21 @@ btn.addEventListener("click", async () => {
     return;
   }
 
-  let data = await getRes(fromCurr);
-
-  if (data && data[toCurr]) {
-    result.innerText = `${currSymbols[toCurr]}${(amount * data[toCurr]).toFixed(
-      2
-    )}`;
-  } else {
-    result.innerText = "Invalid currency selection";
+  btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i>`;
+  try {
+    let data = await getRes(fromCurr);
+    if (data && data[toCurr]) {
+      result.innerText = `${currSymbols[toCurr]}${(
+        amount * data[toCurr]
+      ).toFixed(2)}`;
+    } else {
+      result.innerText = "Invalid currency selection";
+    }
+  } catch (error) {
+    console.log(error);
+    alert("Failed to fetch data. Please try again.");
+  } finally {
+    btn.innerHTML = "Convert";
   }
 });
 
